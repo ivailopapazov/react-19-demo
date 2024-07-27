@@ -1,30 +1,22 @@
-import { useState } from "react";
+import { useTransition } from "react";
 
 const updateName = (name) => new Promise(resolve => setTimeout(() => resolve(name), 2000));
 
 export default function UseTransition() {
-    const [isPending, setIsPending] = useState(false);
+    const [isPending, startTransition] = useTransition();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const formAction = (formData) => {
+        startTransition(async () => {
+            const result = await updateName(formData.get('name'));
 
-        const formData = new FormData(e.target);
-
-        setIsPending(true);
-
-        await updateName(formData.get('name'));
-
-        setIsPending(false);
-
-        console.log('Submitted');
-
-        e.target.reset();
+            console.log(result);
+        });
     };
 
     return (
         <>
             <h2>useTransition</h2>
-            <form onSubmit={handleSubmit}>
+            <form action={formAction}>
                 <input name="name" />
                 <button disabled={isPending}>
                     Update

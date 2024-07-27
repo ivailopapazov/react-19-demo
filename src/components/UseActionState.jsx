@@ -1,25 +1,24 @@
-import { useState } from 'react';
-import { useForm } from '../hooks/useForm';
+import { useActionState } from 'react';
 
 const updateName = (name) => new Promise(resolve => setTimeout(() => resolve(name), 2000));
 
 export default function UseActionState() {
-    const [isPending, setIsPending] = useState(false);
+    const formHandler = async (previousState, formData) => {
+        const result = await updateName(formData.get('name'));
 
-    const formHandler = async (values) => {
-        setIsPending(true);
-        await updateName(values.name);
-        setIsPending(false);
+        console.log(result);
+
+        return null;
     }
 
-    const { values, submitHandler, changeHandler } = useForm(formHandler, { name: '' });
+    const [state, formAction, isPending] = useActionState(formHandler, { name: '' });
 
     return (
         <>
             <h2>useActionState</h2>
-            <form onSubmit={submitHandler}>
-                <input type="text" name="name" value={values.name} onChange={changeHandler} />
-                <button type="submit" disabled={isPending}>Update</button>
+            <form action={formAction}>
+                <input type="text" name="name" />
+                <button  type="submit" disabled={isPending}>Update</button>
             </form>
         </>
     );

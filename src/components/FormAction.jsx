@@ -1,20 +1,14 @@
 export default function FormAction() {
-    const submitHandler = (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.target);
-
+    const formAction = (formData) => {
         console.log(formData.get('name'));
-
-        e.target.reset();
-    }
+    };
 
     return (
         <>
             <h2>Form Action</h2>
-            <form onSubmit={submitHandler}>
+            <form action={formAction}>
                 <input type="text" name="name" />
-                <button type="submit" >Update</button>
+                <button>Update</button>
             </form>
         </>
     );

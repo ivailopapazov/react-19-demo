@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { use, Suspense } from 'react';
 
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -11,15 +11,7 @@ async function fetchCharacter(id) {
 }
 
 function Character(props) {
-    const [character, setCharacter] = useState({});
-
-    useEffect(() => {
-        (async () => {
-            const result = await fetchCharacter(props.id);
-
-            setCharacter(result);
-        })();
-    }, []);
+    const character = use(fetchCharacter(props.id))
 
     return <div>SW Character: {character.name}</div>;
 }
@@ -29,7 +21,9 @@ export default function UseHook() {
         <>
             <h2>use Hook</h2>
 
-            <Character id="4" />
+            <Suspense fallback={<p>loading...</p>}>
+                <Character id="4" />
+            </Suspense >
         </>
     );
 }

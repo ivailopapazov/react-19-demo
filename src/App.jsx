@@ -1,4 +1,5 @@
 import './App.css'
+import ContextComponent from './components/Context'
 import FormAction from './components/FormAction'
 import TodoList from './components/TodoList'
 import UseActionState from './components/UseActionState'
@@ -14,9 +15,10 @@ function App() {
             <UseFormStatus />
             <UseTransition />
             <UseActionState />
-            {/* <UseOptimistic /> */}
-            {/* <UseHook /> */}
+            <UseOptimistic />
+            <UseHook />
             <TodoList />
+            {/* <ContextComponent /> */}
         </>
     )
 }
